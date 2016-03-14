@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Webcamapp</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="button_webcamOn">Webcam aan</string>
+    <string name="button_webcamOff">Webcam uit</string>
+    <string name="text_username">Gebruikersnaam</string>
+    <string name="button_status">Status</string>
+    <string name="button_save">Opslaan</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="text_password">Wachtwoord</string>
+    <string name="text_event_id">Event id</string>
+    <string name="text_url">Url</string>
+</resources>

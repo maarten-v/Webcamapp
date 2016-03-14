@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="pref_username"
+        android:title="@string/text_username"
+        android:defaultValue="" />
+    <EditTextPreference
+        android:key="pref_password"
+        android:title="@string/text_password"
+        android:inputType="textPassword"
+        android:defaultValue="" />
+    <EditTextPreference
+        android:key="pref_url"
+        android:title="@string/text_url"
+        android:defaultValue="https://example.com/" />
+    <EditTextPreference
+        android:key="pref_event_id"
+        android:title="@string/text_event_id"
+        android:inputType="number"
+        android:defaultValue="1" />
+
+</PreferenceScreen>
