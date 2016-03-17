@@ -22,7 +22,6 @@ import com.loopj.android.http.*;
 import java.security.KeyStore;
 
 import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
-
 import cz.msebera.android.httpclient.Header;
 
 
@@ -102,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         showProgressbar();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String url = sharedPref.getString("pref_url", "");
-        connect(url+"axis-cgi/param.cgi?action=update&Event.E1.Starttime=00:00&Event.E1.Duration=24:00");
+        String eventid = sharedPref.getString("pref_event_id", "");
+        connect(url+"axis-cgi/param.cgi?action=update&Event.E"+eventid+".Starttime=00:00&Event.E"+eventid+".Duration=24:00");
     }
 
     public void webcamOff(View view) {
@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
         showProgressbar();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String url = sharedPref.getString("pref_url", "");
-        connect(url+"axis-cgi/param.cgi?action=update&Event.E1.Starttime=01:00&Event.E1.Duration=7:00");
+        String eventid = sharedPref.getString("pref_event_id", "");
+        connect(url+"axis-cgi/param.cgi?action=update&Event.E"+eventid+".Starttime=01:00&Event.E"+eventid+".Duration=7:00");
     }
 
     public void status(View view) {
@@ -118,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
         showProgressbar();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String url = sharedPref.getString("pref_url", "");
-        connect(url+"axis-cgi/param.cgi?action=list&group=Event.E1");
+        String eventid = sharedPref.getString("pref_event_id", "");
+        connect(url+"axis-cgi/param.cgi?action=list&group=Event.E"+eventid);
     }
 
     public void refreshImage(View view) {
@@ -158,23 +160,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                if (response.equals("OK")) {
 
+                if (response.equals("OK")) {
+                    status(null);
                 } else {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String eventid = sharedPref.getString("pref_event_id", "");
                     String[] lines = response.split(System.getProperty("line.separator"));
                     String result = null;
                     for(int i =0; i < lines.length; i++) {
-                        if (lines[i].startsWith("root.Event.E1.Starttime") ) {
+                        if (lines[i].startsWith("root.Event.E"+eventid+".Starttime") ) {
                             String[] split = lines[i].split("=");
                             result = "Starttijd: " + split[1] + "\n" ;
-                        } else if (lines[i].startsWith("root.Event.E1.Duration")) {
+                        } else if (lines[i].startsWith("root.Event.E"+eventid+".Duration")) {
                             String[] split = lines[i].split("=");
                             result = result + "Duur: " + split[1] ;
                         }
                     }
                     statusview.setText(result);
+                    hideProgessbar();
                 }
-                hideProgessbar();
             }
 
             @Override
